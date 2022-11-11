@@ -1,7 +1,7 @@
 use crate::guid::Guid;
 use crate::routes::todo::{Status, Todo};
 
-pub fn list_tasks() -> Vec<Todo> {
+pub async fn list_tasks() -> Vec<Todo> {
     vec![
         Todo {
             id: Guid::new(),
@@ -16,7 +16,7 @@ pub fn list_tasks() -> Vec<Todo> {
     ]
 }
 
-pub fn get_task_by_id(id: Guid) -> Todo {
+pub async fn get_task_by_id(id: Guid) -> Todo {
     Todo {
         id,
         name: format!("Task - {id}"),
@@ -24,13 +24,13 @@ pub fn get_task_by_id(id: Guid) -> Todo {
     }
 }
 
-pub fn update_task(todo: Todo) -> Todo {
+pub async fn update_task(todo: Todo) -> Todo {
     Todo {
         ..todo
     }
 }
 
-pub fn create_task(name: String) -> Todo {
+pub async fn create_task(name: String) -> Todo {
     Todo {
         id: Guid::new(),
         name,

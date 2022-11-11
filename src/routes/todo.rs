@@ -22,21 +22,21 @@ pub enum Status {
 }
 
 #[get("/")]
-pub fn list_tasks() -> Json<Vec<Todo>> {
-    Json(services::todo::list_tasks())
+pub async fn list_tasks() -> Json<Vec<Todo>> {
+    Json(services::todo::list_tasks().await)
 }
 
 #[get("/<id>")]
-pub fn get_task_by_id(id: Guid) -> Json<Todo> {
-    Json(services::todo::get_task_by_id(id))
+pub async fn get_task_by_id(id: Guid) -> Json<Todo> {
+    Json(services::todo::get_task_by_id(id).await)
 }
 
 #[put("/", format = "json", data = "<todo>")]
-pub fn update_task(todo: Json<Todo>) -> Json<Todo> {
-    Json(services::todo::update_task(todo.into_inner()))
+pub async fn update_task(todo: Json<Todo>) -> Json<Todo> {
+    Json(services::todo::update_task(todo.into_inner()).await)
 }
 
 #[post("/", format = "json", data = "<name>")]
-pub fn create_task(name: Json<CreateTodoRequest>) -> Json<Todo> {
-    Json(services::todo::create_task(name.into_inner().name))
+pub async fn create_task(name: Json<CreateTodoRequest>) -> Json<Todo> {
+    Json(services::todo::create_task(name.into_inner().name).await)
 }
