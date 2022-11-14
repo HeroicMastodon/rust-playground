@@ -1,6 +1,5 @@
-use std::fmt::{Debug, Display, Formatter, Write};
+use std::fmt::{Debug, Display, Formatter};
 use std::str::FromStr;
-use mongodb::bson::Bson;
 use rocket::request::FromParam;
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use serde::de::{Error, Visitor};
