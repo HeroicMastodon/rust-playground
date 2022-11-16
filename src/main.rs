@@ -14,6 +14,5 @@ async fn rocket() -> Rocket<Build> {
     let builder = rocket::build();
     let mongodb = &create_mongo_client().await;
         
-    builder
-        .add_todo(mongodb).await
+    builder.add_todo(mongodb).await
 }
