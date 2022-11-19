@@ -103,7 +103,7 @@ pub async fn get_task_by_id(id: Guid, service: &State<TodoService>) -> ActionRes
     Ok(Json(todo))
 }
 
-#[put("/<id>", format = "json", data = "<event>")]
+#[patch("/<id>", format = "json", data = "<event>")]
 pub async fn update_task(id: Guid, event: Json<TodoEvent>, service: &State<TodoService>) -> ActionResult<Todo> {
     let agg = service.update_task(id, event.into_inner()).await.map_err(TodoErrResponder::new)?;
     let todo = Todo::from_agg(agg);
