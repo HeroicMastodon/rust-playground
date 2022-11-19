@@ -6,6 +6,8 @@ mod guid;
 extern crate rocket;
 
 use rocket::{Build, Rocket};
+use uuid::Uuid;
+use crate::guid::Guid;
 use crate::routes::todo::AddTodo;
 use crate::services::create_mongo_client;
 

@@ -23,6 +23,12 @@ impl Guid {
             val: Uuid::new_v4()
         }
     }
+    
+    pub fn empty() -> Guid {
+        Guid {
+            val: Uuid::parse_str("00000000-0000-0000-0000-000000000000").unwrap()
+        }
+    }
 
     pub fn from_str(val: &str) -> Result<Guid, String> {
         let uuid = Uuid::from_str(val);

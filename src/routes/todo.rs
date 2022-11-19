@@ -29,7 +29,7 @@ pub struct CreateTodoRequest {
     pub name: String,
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 #[serde(tag = "type")]
 pub enum Status {
     Complete,
