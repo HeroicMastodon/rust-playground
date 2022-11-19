@@ -36,8 +36,9 @@ impl TodoEventColl {
         self.events.to_vec()
     }
 
-    pub fn add_event(mut self, valid_event: ValidTodoEvent) {
+    pub fn add_event(mut self, valid_event: ValidTodoEvent) -> TodoEventColl {
         self.events.push(valid_event.event());
+        self
     }
 
     pub fn to_agg(&self) -> TodoAggregate {
@@ -50,7 +51,7 @@ pub struct TodoEventCollRepo {
 }
 
 impl TodoEventCollRepo {
-    pub fn new(mongodb: Client) -> TodoEventCollRepo {
+    pub fn new(mongodb: &Client) -> TodoEventCollRepo {
         TodoEventCollRepo {
             collection: mongodb.database("rust-test").collection("todo-events")
         }

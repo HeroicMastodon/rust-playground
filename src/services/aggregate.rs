@@ -15,7 +15,7 @@ pub enum TodoEvent {
 impl TodoEvent {
     pub(crate) fn version(&self) -> u32 {
         match self {
-            TodoEvent::Create { .. } => { 0 }
+            TodoEvent::Create { .. } => { 1 }
             TodoEvent::ChangeName { version, .. } => { version.to_owned() }
             TodoEvent::ChangeStatus { version, .. } => { version.to_owned() }
             TodoEvent::Delete { version, .. } => { version.to_owned() }
@@ -77,6 +77,18 @@ pub struct TodoAggregate {
     pub is_deleted: bool,
 }
 
+impl TodoAggregate {
+    pub fn new() -> TodoAggregate {
+        TodoAggregate {
+            id: Guid::empty(),
+            status: Status::Incomplete,
+            name: "".to_string(),
+            version: 0,
+            is_deleted: false
+        }
+    }
+}
+
 impl Aggregate for TodoAggregate {
     type Event = TodoEvent;
     type ValidEvent = ValidTodoEvent;
@@ -84,7 +96,6 @@ impl Aggregate for TodoAggregate {
     fn version(&self) -> u32 {
         self.version
     }
-
 
     fn try_apply(&self, event: Self::Event) -> Result<ValidTodoEvent, AggregateErr> {
         if self.is_deleted {
@@ -117,13 +128,7 @@ impl Aggregate for TodoAggregate {
     }
 
     fn from_events(events: Vec<Self::Event>) -> TodoAggregate {
-        let mut agg = TodoAggregate {
-            id: Guid::empty(),
-            name: "".to_string(),
-            is_deleted: false,
-            version: 0,
-            status: Status::Incomplete,
-        };
+        let mut agg = TodoAggregate::new();
         agg = events.into_iter().fold(agg, |agg, e| {
             let valid_event = agg.try_apply(e).unwrap();
             agg.apply(&valid_event)
